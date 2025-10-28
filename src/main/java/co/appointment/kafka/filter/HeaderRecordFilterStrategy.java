@@ -18,7 +18,7 @@ public  class HeaderRecordFilterStrategy implements RecordFilterStrategy<String,
     @Override
     public boolean filter(final ConsumerRecord<String, String> record) {
         Header header = record.headers().lastHeader(eventType);
-        if(header == null){
+        if(header == null) {
             return true;
         }
         String headerValue = new String(header.value());
