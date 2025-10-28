@@ -29,7 +29,7 @@ public class KafkaConsumerConfig {
         return factory;
     }
     @Bean
-    public <V> RecordFilterStrategy<String, String> filterStrategy() {
+    public RecordFilterStrategy<String, String> filterStrategy() {
         return new HeaderRecordFilterStrategy(EventTypeConstants.EVENT_TYPE, EventTypeConstants.VERIFY_EMAIL_EVENT);
     }
 }
