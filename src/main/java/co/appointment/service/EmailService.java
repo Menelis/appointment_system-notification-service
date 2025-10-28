@@ -43,7 +43,7 @@ public class EmailService {
 
     private MimeMessage getMimeMessage(final String subject,
                                        final String body,
-                                       final String toEmailAddress) throws MessagingException, MessagingException {
+                                       final String toEmailAddress) throws MessagingException {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
         helper.setFrom(mailSettings.getFromAddress());
