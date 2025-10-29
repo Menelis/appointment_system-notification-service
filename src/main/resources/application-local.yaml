@@ -44,7 +44,7 @@ app:
   kafka:
     consumer:
       notification-topic: appointment-system-notifications
-  encryption-key: "AHaeXmeTddI9EsmAOiK2l8diUFH5htXacTEP4wa5zBs="
+  encryption-key: ""
   mail:
     from-address: ${spring.mail.username}
 
