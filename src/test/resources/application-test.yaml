@@ -1,4 +1,43 @@
+infrastructure:
+  env: local
 spring:
   cloud:
     config:
       enabled: false
+  kafka:
+    bootstrap-servers:
+      - localhost:9092
+    consumer:
+      enable-auto-commit: false
+      isolation-level: read_committed
+      group-id: ${infrastructure.env}-appointment-notification-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      auto-offset-reset: earliest
+      max-poll-records: 10
+      properties:
+        max.poll.interval.ms: 600000
+    listener:
+      ack-mode: manual_immediate
+      concurrency: 1
+      auto-startup: true
+    properties:
+      security.protocol: PLAINTEXT
+      sasl.mechanism: PLAIN
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ""
+    password: ""
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.debug: true
+
+app:
+  kafka:
+    consumer:
+      notification-topic: appointment-system-notifications
+  encryption-key: "AHaeXmeTddI9EsmAOiK2l8diUFH5htXacTEP4wa5zBs="
+  mail:
+    from-address: ${spring.mail.username}
