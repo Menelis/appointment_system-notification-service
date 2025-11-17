@@ -6,14 +6,16 @@ import org.apache.kafka.common.header.Header;
 import org.springframework.kafka.listener.adapter.RecordFilterStrategy;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
+
 @Slf4j
 public  class HeaderRecordFilterStrategy implements RecordFilterStrategy<String, String> {
     private final String eventType;
-    private final String eventValue;
+    private final List<String> eventValues;
 
-    public HeaderRecordFilterStrategy(final String eventType, final String eventValue) {
+    public HeaderRecordFilterStrategy(final String eventType, final List<String> eventValue) {
         this.eventType = eventType;
-        this.eventValue = eventValue;
+        this.eventValues = eventValue;
     }
     @Override
     public boolean filter(final ConsumerRecord<String, String> record) {
@@ -25,6 +27,6 @@ public  class HeaderRecordFilterStrategy implements RecordFilterStrategy<String,
         if(!StringUtils.hasText(headerValue)) {
             return true;
         }
-        return !eventValue.equalsIgnoreCase(headerValue);
+        return !eventValues.contains(headerValue);
     }
 }
