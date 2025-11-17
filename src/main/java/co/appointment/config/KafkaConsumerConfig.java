@@ -10,6 +10,8 @@ import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.adapter.RecordFilterStrategy;
 
+import java.util.List;
+
 @Configuration
 @EnableKafka
 public class KafkaConsumerConfig {
@@ -27,6 +29,12 @@ public class KafkaConsumerConfig {
     }
     @Bean
     public RecordFilterStrategy<String, String> filterStrategy() {
-        return new HeaderRecordFilterStrategy(EventTypeConstants.EVENT_TYPE, EventTypeConstants.VERIFY_EMAIL_EVENT);
+        return new HeaderRecordFilterStrategy(
+                EventTypeConstants.EVENT_TYPE,
+                List.of(
+                        EventTypeConstants.VERIFY_EMAIL_EVENT,
+                        EventTypeConstants.BOOKING_CONFIRMED_EVENT,
+                        EventTypeConstants.BOOKING_PENDING_CONFIRMED_EVENT,
+                        EventTypeConstants.BOOKING_CANCELLED_EVENT));
     }
 }
