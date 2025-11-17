@@ -31,16 +31,14 @@ public class EmailService {
             if(emailEvent == null) {
                 return;
             }
-            javaMailSender.send(getMimeMessage(
-                    emailEvent.subject(),
-                    encryptionService.decryptCipherText(emailEvent.body()),
-                    emailEvent.recipientEmail()));
+            final String emailBody =  emailEvent.isBodyEncrypted() ? encryptionService.decryptCipherText(emailEvent.body()) : emailEvent.body();
+            javaMailSender.send(
+                    getMimeMessage(emailEvent.subject(),emailBody, emailEvent.recipientEmail()));
         } catch (Exception exception) {
             log.error("There was an issue sending email to: {}", emailEvent.recipientEmail());
             log.error(exception.getMessage(), exception);
         }
     }
-
     private MimeMessage getMimeMessage(final String subject,
                                        final String body,
                                        final String toEmailAddress) throws MessagingException {

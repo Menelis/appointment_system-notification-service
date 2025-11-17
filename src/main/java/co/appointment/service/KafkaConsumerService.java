@@ -18,7 +18,7 @@ public class KafkaConsumerService {
     private final EmailService emailService;
 
     @KafkaListener(
-            topics = "${app.kafka.consumer.notification-topic}",
+            topics = "${app.kafka.consumer.topic.name}",
             containerFactory = "containerFactory",
             filter = "filterStrategy")
     public void notificationListener(final ConsumerRecord<String, String> record, final Acknowledgment acknowledgment) {
