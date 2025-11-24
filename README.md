@@ -10,13 +10,14 @@
     - ``bookingPendingConfirmed`` - The mail send to customer after making an appointment to confirm the booking.
     - ``bookingCancelled`` - The email send to customer when the booking is cancelled either by user or admin
 - The structure of email event that is sent by microservices look like this:
-  - ```json 
-    {
-     "recipientEmail": "1@email.com,2@email.com",
-      "subject": "Booking - {reference No}",
-      "body": "...................",
-      "isBodyEncrypted": false
-    } ```
+```json
+{
+ "recipientEmail": "1@email.com,2@email.com",
+  "subject": "Booking - {reference No}",
+  "body": "...................",
+  "isBodyEncrypted": false
+} 
+```
 - Config file(YAML)
 ```yaml
 infrastructure:
