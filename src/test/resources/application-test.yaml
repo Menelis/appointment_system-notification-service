@@ -1,5 +1,5 @@
 infrastructure:
-  env: local
+  env: test
 spring:
   cloud:
     config:
@@ -37,7 +37,15 @@ spring:
 app:
   kafka:
     consumer:
-      notification-topic: appointment-system-notifications
-  encryption-key: "AHaeXmeTddI9EsmAOiK2l8diUFH5htXacTEP4wa5zBs="
+      topic:
+        name: ${infrastructure.env}-appointment-system-notifications
+        topic-header-filter:
+          header-key: eventType
+          header-values:
+            - verifyEmail
+            - bookingConfirmed
+            - bookingPendingConfirmed
+            - bookingCancelled
+  encryption-key: ""
   mail:
     from-address: ${spring.mail.username}
