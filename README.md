@@ -1,5 +1,4 @@
 # Appointment Notification Service
-
 - The service responsible for sending notifications in and out of appointment system.
 - It consumes the events from event streaming service [Kafka](https://kafka.apache.org/) topic.
 - It consumes events with the following headers values:
@@ -10,6 +9,11 @@
     - ``bookingPendingConfirmed`` - The mail send to customer after making an appointment to confirm the booking.
     - ``bookingCancelled`` - The email send to customer when the booking is cancelled either by user or admin
 - The structure of email event that is sent by microservices look like this:
+### Existing public Docker Image
+- There is an already existing public image you can use without building the new one if you not making code changes:
+  - Image - ```docker.io/menelismthembu12/appointment-auth-server```
+  - Tag - ```1.0.4```
+- The service allows config to be externalized using config-server.
 ```json
 {
  "recipientEmail": "1@email.com,2@email.com",
