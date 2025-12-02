@@ -1,6 +1,6 @@
 package co.appointment.service;
 
-import co.appointment.shared.kafka.event.EmailEvent;
+import co.appointment.shared.event.EmailEvent;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;

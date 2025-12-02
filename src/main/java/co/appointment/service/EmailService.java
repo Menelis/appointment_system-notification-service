@@ -1,7 +1,7 @@
 package co.appointment.service;
 
 import co.appointment.config.AppConfigProperties;
-import co.appointment.shared.kafka.event.EmailEvent;
+import co.appointment.shared.event.EmailEvent;
 import co.appointment.shared.service.EncryptionService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
