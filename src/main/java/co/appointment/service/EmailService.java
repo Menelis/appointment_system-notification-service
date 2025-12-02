@@ -31,9 +31,10 @@ public class EmailService {
             if(emailEvent == null) {
                 return;
             }
-            final String emailBody =  emailEvent.isBodyEncrypted() ? encryptionService.decryptCipherText(emailEvent.body()) : emailEvent.body();
+            final String emailBody =  emailEvent.bodyEncrypted() ? encryptionService.decryptCipherText(emailEvent.body()) : emailEvent.body();
+            final String recipientEmail = emailEvent.recipientEmailEncrypted() ? encryptionService.decryptCipherText(emailEvent.recipientEmail())  : emailEvent.recipientEmail();
             javaMailSender.send(
-                    getMimeMessage(emailEvent.subject(),emailBody, emailEvent.recipientEmail()));
+                    getMimeMessage(emailEvent.subject(),emailBody, recipientEmail));
         } catch (Exception exception) {
             log.error("There was an issue sending email to: {}", emailEvent.recipientEmail());
             log.error(exception.getMessage(), exception);
