@@ -1,11 +1,10 @@
 package co.appointment.service;
 
 import co.appointment.config.AppConfigProperties;
-import co.appointment.shared.event.EmailEvent;
-import co.appointment.shared.service.EncryptionService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -16,33 +15,22 @@ public class EmailService {
 
     private final JavaMailSender javaMailSender;
     private final AppConfigProperties.MailSettings mailSettings;
-    private final EncryptionService encryptionService;
 
-    public EmailService(
-            final JavaMailSender javaMailSender,
-            final AppConfigProperties appConfigProperties,
-            final EncryptionService encryptionService) {
-        this.javaMailSender = javaMailSender;
+    public EmailService(final JavaMailSender mailSender, final AppConfigProperties appConfigProperties) {
+        this.javaMailSender = mailSender;
         this.mailSettings = appConfigProperties.getMail();
-        this.encryptionService = encryptionService;
     }
-    public void sendEmail(final EmailEvent emailEvent) {
+
+    public void processEmailEvent(final ConsumerRecord<String, byte[]> record) {
         try {
-            if(emailEvent == null) {
-                return;
-            }
-            final String emailBody =  emailEvent.bodyEncrypted() ? encryptionService.decryptCipherText(emailEvent.body()) : emailEvent.body();
-            final String recipientEmail = emailEvent.recipientEmailEncrypted() ? encryptionService.decryptCipherText(emailEvent.recipientEmail())  : emailEvent.recipientEmail();
-            javaMailSender.send(
-                    getMimeMessage(emailEvent.subject(),emailBody, recipientEmail));
+            MimeMessage message = getMimeMessage(null, null, null);
         } catch (Exception exception) {
-            log.error("There was an issue sending email to: {}", emailEvent.recipientEmail());
             log.error(exception.getMessage(), exception);
         }
     }
-    private MimeMessage getMimeMessage(final String subject,
-                                       final String body,
-                                       final String toEmailAddress) throws MessagingException {
+
+    private MimeMessage getMimeMessage(final String subject, final String body, final String toEmailAddress)
+            throws MessagingException {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
         helper.setFrom(mailSettings.getFromAddress());
