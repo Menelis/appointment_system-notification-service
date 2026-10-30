@@ -10,7 +10,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 @SuppressWarnings({"HideUtilityClassConstructor"})
 public class NotificationServiceApplication {
 
-    public static void main(final String[] args) {
+    static void main(final String[] args) {
         SpringApplication.run(NotificationServiceApplication.class, args);
     }
 }

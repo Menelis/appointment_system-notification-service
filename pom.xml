@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.7</version>
+        <version>4.1.2</version>
         <relativePath/>
         <!-- lookup parent from repository -->
     </parent>
@@ -13,28 +13,11 @@
     <version>1.0.2</version>
     <name>notification-service</name>
     <description>Appointment system notification service</description>
-    <url/>
-    <licenses>
-        <license/>
-    </licenses>
-    <developers>
-        <developer/>
-    </developers>
-    <scm>
-        <connection/>
-        <developerConnection/>
-        <tag/>
-        <url/>
-    </scm>
     <properties>
         <java.version>25</java.version>
-        <spring-cloud.version>2025.0.0</spring-cloud.version>
-        <appointment-shared.version>2.0.0</appointment-shared.version>
+        <spring-cloud.version>2025.1.2</spring-cloud.version>
+        <appointment-system-shared.version>1.0.0</appointment-system-shared.version>
         <code-format.version>1.0.0</code-format.version>
-
-        <!-- Plugins -->
-        <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
-        <spotless-maven-plugin.version>3.10.4</spotless-maven-plugin.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -54,15 +37,15 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <artifactId>spring-boot-starter-webmvc</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.kafka</groupId>
-            <artifactId>spring-kafka</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-kafka</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -71,8 +54,8 @@
         <!--Custom Shared Library-->
         <dependency>
             <groupId>co.appointment.shared</groupId>
-            <artifactId>appointment-shared</artifactId>
-            <version>${appointment-shared.version}</version>
+            <artifactId>appointment-system-shared</artifactId>
+            <version>${appointment-system-shared.version}</version>
         </dependency>
 
         <dependency>
@@ -82,13 +65,12 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
+            <artifactId>spring-boot-starter-webmvc-test</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.springframework.kafka</groupId>
-            <artifactId>spring-kafka-test</artifactId>
-            <scope>test</scope>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-kafka-test</artifactId>
         </dependency>
     </dependencies>
 
@@ -102,6 +84,10 @@
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
+                        </path>
+                        <path>
+                            <groupId>org.springframework.boot</groupId>
+                            <artifactId>spring-boot-configuration-processor</artifactId>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
@@ -121,7 +107,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>${maven-checkstyle-plugin.version}</version>
+                <version>3.6.0</version>
                 <configuration>
                     <configLocation>custom_check_style.xml</configLocation>
                     <consoleOutput>true</consoleOutput>
@@ -148,7 +134,7 @@
             <plugin>
                 <groupId>com.diffplug.spotless</groupId>
                 <artifactId>spotless-maven-plugin</artifactId>
-                <version>${spotless-maven-plugin.version}</version>
+                <version>3.10.4</version>
                 <configuration>
                     <java>
                         <removeUnusedImports/>

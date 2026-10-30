@@ -8,7 +8,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "app")
 public class AppConfigProperties {
 
-    private String encryptionKey;
     private KafkaSettings kafka;
     private MailSettings mail;
 
