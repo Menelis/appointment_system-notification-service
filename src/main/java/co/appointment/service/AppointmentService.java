@@ -8,9 +8,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AppointmentService {
 
-    public void handleAppointment(final ConsumerRecord<String, byte[]> record, final String status) {}
-
-    public void handlePasswordReset(final ConsumerRecord<String, byte[]> record) {}
-
-    public void handleVerifyEmail(final ConsumerRecord<String, byte[]> record) {}
+    public void handleAppointment(
+            final ConsumerRecord<String, byte[]> record, final String event, final String xCorrelationId) {}
 }

@@ -4,7 +4,6 @@ import co.appointment.config.AppConfigProperties;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -21,10 +20,11 @@ public class EmailService {
         this.mailSettings = appConfigProperties.getMail();
     }
 
-    public void processEmailEvent(final ConsumerRecord<String, byte[]> record) {
+    public void sendMail(final String to, final String subject, final String body) {
         try {
-            MimeMessage message = getMimeMessage(null, null, null);
-        } catch (Exception exception) {
+            MimeMessage mimeMessage = getMimeMessage(to, subject, body);
+            javaMailSender.send(mimeMessage);
+        } catch (MessagingException exception) {
             log.error(exception.getMessage(), exception);
         }
     }
