@@ -6,11 +6,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 @SpringBootApplication
-@EnableConfigurationProperties({ AppConfigProperties.class })
+@EnableConfigurationProperties({AppConfigProperties.class})
+@SuppressWarnings({"HideUtilityClassConstructor"})
 public class NotificationServiceApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(NotificationServiceApplication.class, args);
-	}
-
+    public static void main(final String[] args) {
+        SpringApplication.run(NotificationServiceApplication.class, args);
+    }
 }
