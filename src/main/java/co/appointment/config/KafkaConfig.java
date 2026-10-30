@@ -1,7 +1,7 @@
 package co.appointment.config;
 
 import co.appointment.kafka.filter.HeaderRecordFilterStrategy;
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
+import org.springframework.boot.kafka.autoconfigure.KafkaProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
@@ -18,7 +18,7 @@ public class KafkaConfig {
             final KafkaProperties kafkaProperties) {
         ConcurrentKafkaListenerContainerFactory<String, byte[]> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(new DefaultKafkaConsumerFactory<>(kafkaProperties.buildConsumerProperties(null)));
+        factory.setConsumerFactory(new DefaultKafkaConsumerFactory<>(kafkaProperties.buildConsumerProperties()));
         if (kafkaProperties.getListener() != null) {
             factory.setConcurrency(kafkaProperties.getListener().getConcurrency());
             factory.getContainerProperties()
