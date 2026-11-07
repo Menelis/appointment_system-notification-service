@@ -57,6 +57,11 @@
             <artifactId>appointment-system-shared</artifactId>
             <version>${appointment-system-shared.version}</version>
         </dependency>
+        <!-- Spring Boot gRPC Client -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-grpc-client</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
