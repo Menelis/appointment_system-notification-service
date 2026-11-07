@@ -1,13 +1,5 @@
 package co.appointment.kafka;
 
-import static co.appointment.shared.constant.AppointmentStatus.BOOKING_CONFIRMED;
-import static co.appointment.shared.constant.EventTypeConstants.BOOKING_CANCELLED_EVENT;
-import static co.appointment.shared.constant.EventTypeConstants.BOOKING_CONFIRMED_EVENT;
-import static co.appointment.shared.constant.EventTypeConstants.EVENT_TYPE;
-import static co.appointment.shared.constant.EventTypeConstants.PASSWORD_RESET_EVENT;
-import static co.appointment.shared.constant.EventTypeConstants.VERIFY_EMAIL_EVENT;
-import static co.appointment.shared.constant.SharedConstants.X_CORRELATION_ID;
-
 import co.appointment.service.AppointmentService;
 import co.appointment.service.AuthNotificationService;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +10,14 @@ import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import static co.appointment.shared.constant.AppointmentStatus.BOOKING_CONFIRMED;
+import static co.appointment.shared.constant.EventTypeConstants.EVENT_TYPE;
+import static co.appointment.shared.constant.EventTypeConstants.VERIFY_EMAIL_EVENT;
+import static co.appointment.shared.constant.EventTypeConstants.BOOKING_CONFIRMED_EVENT;
+import static co.appointment.shared.constant.EventTypeConstants.BOOKING_CANCELLED_EVENT;
+import static co.appointment.shared.constant.EventTypeConstants.PASSWORD_RESET_EVENT;
+import static co.appointment.shared.constant.SharedConstants.X_CORRELATION_ID;
 
 @RequiredArgsConstructor
 @Service
@@ -41,9 +41,11 @@ public class KafkaConsumer {
                 record.topic(),
                 record.partition(),
                 record.offset());
-
-        processEvent(eventType, record, xCorrelationId);
-
+        try {
+            processEvent(eventType, record, xCorrelationId);
+        } catch (Exception exception) {
+            log.error(exception.getMessage(), exception);
+        }
         log.info(
                 "Finished processing event from topic=[{}], partition=[{}], offset=[{}]",
                 record.topic(),
