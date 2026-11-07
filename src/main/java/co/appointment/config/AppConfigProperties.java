@@ -10,6 +10,8 @@ public class AppConfigProperties {
 
     private KafkaSettings kafka;
     private MailSettings mail;
+    private EmailTemplateSetting emailTemplate;
+    private String appUrl;
 
     @Data
     public static class KafkaSettings {
@@ -36,5 +38,11 @@ public class AppConfigProperties {
     @Data
     public static class MailSettings {
         private String fromAddress;
+    }
+
+    @Data
+    public static class EmailTemplateSetting {
+        private String verifyEmailTemplate;
+        private String resetPasswordEmailTemplate;
     }
 }
