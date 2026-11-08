@@ -1,8 +1,9 @@
 package co.appointment.config;
 
-import java.util.List;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+
+import java.util.List;
 
 @Data
 @ConfigurationProperties(prefix = "app")
@@ -10,6 +11,8 @@ public class AppConfigProperties {
 
     private KafkaSettings kafka;
     private MailSettings mail;
+    private MessageTemplateSetting messageTemplate;
+    private String appUrl;
 
     @Data
     public static class KafkaSettings {
@@ -36,5 +39,14 @@ public class AppConfigProperties {
     @Data
     public static class MailSettings {
         private String fromAddress;
+    }
+
+    @Data
+    public static class MessageTemplateSetting {
+        private String verifyTemplate;
+        private String resetPasswordTemplate;
+        private String pendingConfirmationTemplate;
+        private String confirmedTemplate;
+        private String cancellationTemplate;
     }
 }

@@ -1,8 +1,8 @@
 package co.appointment.kafka;
 
-import static co.appointment.shared.constant.AppointmentStatus.BOOKING_CONFIRMED;
 import static co.appointment.shared.constant.EventTypeConstants.BOOKING_CANCELLED_EVENT;
 import static co.appointment.shared.constant.EventTypeConstants.BOOKING_CONFIRMED_EVENT;
+import static co.appointment.shared.constant.EventTypeConstants.BOOKING_PENDING_CONFIRMATION_EVENT;
 import static co.appointment.shared.constant.EventTypeConstants.EVENT_TYPE;
 import static co.appointment.shared.constant.EventTypeConstants.PASSWORD_RESET_EVENT;
 import static co.appointment.shared.constant.EventTypeConstants.VERIFY_EMAIL_EVENT;
@@ -41,9 +41,11 @@ public class KafkaConsumer {
                 record.topic(),
                 record.partition(),
                 record.offset());
-
-        processEvent(eventType, record, xCorrelationId);
-
+        try {
+            processEvent(eventType, record, xCorrelationId);
+        } catch (Exception exception) {
+            log.error(exception.getMessage(), exception);
+        }
         log.info(
                 "Finished processing event from topic=[{}], partition=[{}], offset=[{}]",
                 record.topic(),
@@ -63,8 +65,10 @@ public class KafkaConsumer {
             return;
         }
         switch (eventType) {
-            case BOOKING_CONFIRMED, BOOKING_CONFIRMED_EVENT, BOOKING_CANCELLED_EVENT ->
-                appointmentService.handleAppointment(record, eventType, xCorrelationId);
+            case BOOKING_PENDING_CONFIRMATION_EVENT ->
+                appointmentService.handlePendingConfirmation(record, eventType, xCorrelationId);
+            case BOOKING_CONFIRMED_EVENT -> appointmentService.handleConfirmed(record, eventType, xCorrelationId);
+            case BOOKING_CANCELLED_EVENT -> appointmentService.handleCancellation(record, eventType, xCorrelationId);
             case PASSWORD_RESET_EVENT -> authNotificationService.handlePasswordReset(record, xCorrelationId);
             case VERIFY_EMAIL_EVENT -> authNotificationService.handleVerifyEmail(record, xCorrelationId);
             default -> throw new IllegalStateException("Unsupported event Type=[%s]".formatted(eventType));

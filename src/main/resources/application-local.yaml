@@ -1,5 +1,6 @@
 infrastructure:
   env: local
+
 spring:
   application:
     name: notification-service
@@ -19,7 +20,7 @@ spring:
       isolation-level: read_committed
       group-id: ${infrastructure.env}-appointment-notification-group
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
       auto-offset-reset: earliest
       max-poll-records: 10
       properties:
@@ -31,6 +32,17 @@ spring:
     properties:
       security.protocol: PLAINTEXT
       sasl.mechanism: PLAIN
+  # Service intercommunication
+  grpc:
+    client:
+      channel:
+        auth-service:
+          target: "static://localhost:9090"
+        branch-service:
+          target: "static://localhost:9091"
+        appointment-service:
+          target: "static://localhost:9089"
+
   mail:
     host: smtp.gmail.com
     port: 587
@@ -41,16 +53,40 @@ spring:
       mail.smtp.starttls.enable: true
       mail.debug: true
 app:
+  app-url: http://localhost:4200/# # Hash Routing work around
   kafka:
     consumer:
-      notification-topic: appointment-system-notifications
-  encryption-key: ""
+      topic:
+        name: ${infrastructure.env}-appointment-notifications
+        topic-header-filter:
+          header-key: eventType
+          header-values:
+            - verifyEmail
+            - bookingConfirmed
+            - bookingPendingConfirmation
+            - bookingCancelled
+            - passwordReset
+
   mail:
     from-address: ${spring.mail.username}
+  message-template:
+    verify-template: Hi %s,<br/><br/> Welcome to Appointment System.To complete registration process click <a href='%s'>here</a> to verify your account.<br/></br/><br/><br/> %s
+    reset-password-template: Hi %s,<br/><br/> We have received your request to reset your password.Please click <a href='%s'>here</a> to reset your password.<br/></br/><br/> %s
+    pending-confirmation-template: "Dear %s,<br/><br/> Thank you for making an appointment at branch: %s for date:%s at slot: %s.<br/> Your reference number is: %s <br/> Appointment status is:<b>%s</b>.<br/> You will get a notification with the progress of your appointment.<br/></br/><br/> %s<br/><br/>%s"
+    confirmed-template: "Dear %s,<br/><br/> Your appointment at branch: %s for date:%s at slot: %s.<br/> Your reference number is: %s <br/> Appointment status is: <b>%s</b>. <br/>We looking forward in seeing you.<br/></br/><br/>%s<br/><br/>%s"
+    cancellation-template: "Dear %s,<br/><br/> Your appointment at branch: %s for date:%s at slot: %s has been <b>CANCELLED</b> due to reason: %s.<br/>Thank You for your effort in making the appointment.<br/></br/><br/>%s<br/><br/>%s"
+
 
 server:
-  port: 9002
+  port: 9007
 logging:
   level:
-    root: error
-    co.appointment.service.KafkaConsumerService: info
+    root: info
+    co.appointment: trace
+    org.springframework.grpc: TRACE
+#    org.springframework.grpc.client: TRACE
+#
+#      # Underlying gRPC Java Channels, Name Resolvers & Load Balancers
+#    io.grpc: TRACE
+#    io.grpc.Channel: TRACE
+#    io.grpc.netty: TRACE

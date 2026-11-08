@@ -20,16 +20,16 @@ public class EmailService {
         this.mailSettings = appConfigProperties.getMail();
     }
 
-    public void sendMail(final String to, final String subject, final String body) {
+    public void sendMail(final String toEmailAddress, final String subject, final String body) {
         try {
-            MimeMessage mimeMessage = getMimeMessage(to, subject, body);
+            MimeMessage mimeMessage = getMimeMessage(toEmailAddress, subject, body);
             javaMailSender.send(mimeMessage);
         } catch (MessagingException exception) {
             log.error(exception.getMessage(), exception);
         }
     }
 
-    private MimeMessage getMimeMessage(final String subject, final String body, final String toEmailAddress)
+    private MimeMessage getMimeMessage(final String toEmailAddress, final String subject, final String body)
             throws MessagingException {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
