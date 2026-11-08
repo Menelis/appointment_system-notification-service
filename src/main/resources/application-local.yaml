@@ -53,7 +53,7 @@ spring:
       mail.smtp.starttls.enable: true
       mail.debug: true
 app:
-  app-url: http://localhost:4200 # Hash Routing work around
+  app-url: http://localhost:4200/# # Hash Routing work around
   kafka:
     consumer:
       topic:
@@ -69,9 +69,12 @@ app:
 
   mail:
     from-address: ${spring.mail.username}
-  email-template:
-    verify-email-template: Hi %s,<br/><br/> Welcome to Appointment System.To complete registration process click <a href='%s'>here</a> to verify your account.<br/></br/><br/><br/> %s
-    reset-password-email-template: Hi %s,<br/><br/> We have received your request to reset your password.Please click <a href='%s'>here</a> to reset your password.<br/></br/><br/> %s
+  message-template:
+    verify-template: Hi %s,<br/><br/> Welcome to Appointment System.To complete registration process click <a href='%s'>here</a> to verify your account.<br/></br/><br/><br/> %s
+    reset-password-template: Hi %s,<br/><br/> We have received your request to reset your password.Please click <a href='%s'>here</a> to reset your password.<br/></br/><br/> %s
+    pending-confirmation-template: "Dear %s,<br/><br/> Thank you for making an appointment at branch: %s for date:%s at slot: %s.<br/> Your reference number is: %s <br/> Appointment status is:<b>%s</b>.<br/> You will get a notification with the progress of your appointment.<br/></br/><br/> %s<br/><br/>%s"
+    confirmed-template: "Dear %s,<br/><br/> Your appointment at branch: %s for date:%s at slot: %s.<br/> Your reference number is: %s <br/> Appointment status is: <b>%s</b>. <br/>We looking forward in seeing you.<br/></br/><br/>%s<br/><br/>%s"
+    cancellation-template: "Dear %s,<br/><br/> Your appointment at branch: %s for date:%s at slot: %s has been <b>CANCELLED</b> due to reason: %s.<br/>Thank You for your effort in making the appointment.<br/></br/><br/>%s<br/><br/>%s"
 
 
 server:
