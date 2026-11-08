@@ -65,8 +65,10 @@ public class KafkaConsumer {
             return;
         }
         switch (eventType) {
-            case BOOKING_PENDING_CONFIRMATION_EVENT, BOOKING_CONFIRMED_EVENT, BOOKING_CANCELLED_EVENT ->
-                appointmentService.handleAppointment(record, eventType, xCorrelationId);
+            case BOOKING_PENDING_CONFIRMATION_EVENT ->
+                appointmentService.handlePendingConfirmation(record, eventType, xCorrelationId);
+            case BOOKING_CONFIRMED_EVENT -> appointmentService.handleConfirmed(record, eventType, xCorrelationId);
+            case BOOKING_CANCELLED_EVENT -> appointmentService.handleCancellation(record, eventType, xCorrelationId);
             case PASSWORD_RESET_EVENT -> authNotificationService.handlePasswordReset(record, xCorrelationId);
             case VERIFY_EMAIL_EVENT -> authNotificationService.handleVerifyEmail(record, xCorrelationId);
             default -> throw new IllegalStateException("Unsupported event Type=[%s]".formatted(eventType));

@@ -43,7 +43,8 @@ public class AuthNotificationService {
 
     String getPasswordResetEmailBody(
             final UserSummary userSummary, final VerificationTokenSummary verificationTokenSummary) {
-        String passwordResetEmailTemplate = configProperties.getEmailTemplate().getResetPasswordEmailTemplate();
+        String passwordResetEmailTemplate =
+                configProperties.getMessageTemplate().getResetPasswordTemplate();
         String forgotPasswordLink = "%s/account/reset-password?email=%s&token=%s"
                 .formatted(configProperties.getAppUrl(), userSummary.email(), verificationTokenSummary.token());
         return passwordResetEmailTemplate.formatted(
@@ -86,7 +87,8 @@ public class AuthNotificationService {
     String getEmailVerificationEmailBody(
             final UserSummary userSummary, final VerificationTokenSummary verificationTokenSummary) {
 
-        String passwordResetEmailTemplate = configProperties.getEmailTemplate().getVerifyEmailTemplate();
+        String passwordResetEmailTemplate =
+                configProperties.getMessageTemplate().getVerifyTemplate();
         String registrationEmailVerificationLink = "%s/account/confirm-email?email=%s&token=%s"
                 .formatted(configProperties.getAppUrl(), userSummary.email(), verificationTokenSummary.token());
 
