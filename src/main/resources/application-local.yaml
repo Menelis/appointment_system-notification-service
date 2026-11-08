@@ -63,7 +63,7 @@ app:
           header-values:
             - verifyEmail
             - bookingConfirmed
-            - bookingPendingConfirmed
+            - bookingPendingConfirmation
             - bookingCancelled
             - passwordReset
 
@@ -80,7 +80,7 @@ logging:
   level:
     root: info
     co.appointment: trace
-#    org.springframework.grpc: TRACE
+    org.springframework.grpc: TRACE
 #    org.springframework.grpc.client: TRACE
 #
 #      # Underlying gRPC Java Channels, Name Resolvers & Load Balancers

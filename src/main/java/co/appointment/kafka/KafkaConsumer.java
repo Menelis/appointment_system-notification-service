@@ -1,8 +1,8 @@
 package co.appointment.kafka;
 
-import static co.appointment.shared.constant.AppointmentStatus.BOOKING_CONFIRMED;
 import static co.appointment.shared.constant.EventTypeConstants.BOOKING_CANCELLED_EVENT;
 import static co.appointment.shared.constant.EventTypeConstants.BOOKING_CONFIRMED_EVENT;
+import static co.appointment.shared.constant.EventTypeConstants.BOOKING_PENDING_CONFIRMATION_EVENT;
 import static co.appointment.shared.constant.EventTypeConstants.EVENT_TYPE;
 import static co.appointment.shared.constant.EventTypeConstants.PASSWORD_RESET_EVENT;
 import static co.appointment.shared.constant.EventTypeConstants.VERIFY_EMAIL_EVENT;
@@ -65,7 +65,7 @@ public class KafkaConsumer {
             return;
         }
         switch (eventType) {
-            case BOOKING_CONFIRMED, BOOKING_CONFIRMED_EVENT, BOOKING_CANCELLED_EVENT ->
+            case BOOKING_PENDING_CONFIRMATION_EVENT, BOOKING_CONFIRMED_EVENT, BOOKING_CANCELLED_EVENT ->
                 appointmentService.handleAppointment(record, eventType, xCorrelationId);
             case PASSWORD_RESET_EVENT -> authNotificationService.handlePasswordReset(record, xCorrelationId);
             case VERIFY_EMAIL_EVENT -> authNotificationService.handleVerifyEmail(record, xCorrelationId);

@@ -15,5 +15,5 @@ import org.springframework.grpc.client.ImportGrpcClients;
         types = {BranchServiceGrpc.BranchServiceBlockingStub.class})
 @ImportGrpcClients(
         target = "appointment-service",
-        types = {AppointmentServiceGrpc.AppointmentServiceImplBase.class})
+        types = {AppointmentServiceGrpc.AppointmentServiceBlockingStub.class})
 public class GrpcClientConfig {}
