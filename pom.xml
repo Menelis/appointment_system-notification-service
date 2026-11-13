@@ -10,12 +10,12 @@
     </parent>
     <groupId>co.appointment</groupId>
     <artifactId>notification-service</artifactId>
-    <version>1.0.2</version>
+    <version>2.0.0</version>
     <name>notification-service</name>
     <description>Appointment system notification service</description>
     <properties>
         <java.version>25</java.version>
-        <spring-cloud.version>2025.1.2</spring-cloud.version>
+        <spring-cloud.version>2025.1.4</spring-cloud.version>
         <appointment-system-shared.version>1.0.0</appointment-system-shared.version>
         <code-format.version>1.0.0</code-format.version>
     </properties>
