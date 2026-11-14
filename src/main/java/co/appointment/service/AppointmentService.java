@@ -1,5 +1,8 @@
 package co.appointment.service;
 
+import static co.appointment.shared.constant.SharedConstants.APPOINTMENT_SYSTEM_EMAIL_FOOTER;
+import static co.appointment.shared.util.SharedObjectUtils.returnEmptyIfNullOrBlank;
+
 import co.appointment.config.AppConfigProperties;
 import co.appointment.service.grpc.client.GrpcAppointmentService;
 import co.appointment.service.grpc.client.GrpcAuthService;
@@ -8,17 +11,13 @@ import co.appointment.shared.event.AppointmentEvent;
 import co.appointment.shared.record.AppointmentSummary;
 import co.appointment.shared.record.BranchSummary;
 import co.appointment.shared.record.UserSummary;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import tools.jackson.databind.json.JsonMapper;
-
-import java.util.UUID;
-
-import static co.appointment.shared.constant.SharedConstants.APPOINTMENT_SYSTEM_EMAIL_FOOTER;
-import static co.appointment.shared.util.SharedObjectUtils.returnEmptyIfNullOrBlank;
 
 @Service
 @Slf4j
